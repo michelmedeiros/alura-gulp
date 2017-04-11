@@ -1,0 +1,32 @@
+{
+  "name": "alura-gulp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server",
+    "gulp": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michelmedeiros/alura-gulp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michelmedeiros/alura-gulp/issues"
+  },
+  "homepage": "https://github.com/michelmedeiros/alura-gulp#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-imagemin": "^3.2.0"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-imagemin": "^3.2.0",
+    "express": "^4.12.3",
+    "body-parser": "^1.12.3"
+  },
+  "description": ""
+}
