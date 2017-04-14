@@ -3,10 +3,17 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     concat = require('gulp-concat'),
     htmlReplace = require('gulp-html-replace'),
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify'),
+    usemin = require('gulp-usemin'),
+    cssmin = require('gulp-cssmin'),
+    browserSync = require('browser-sync'),
+    jshint = require('gulp-jshint'),
+    jshintStylish = require('jshint-stylish'),
+    csslint = require('gulp-csslint'),
+    autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('default', ['copy'], function(){
-    gulp.start('build-img', 'build-js', 'build-html');
+    gulp.start('build-img', 'usemin');
 });
 
 gulp.task('clean', function() {
@@ -25,18 +32,34 @@ gulp.task('build-img', function() {
         .pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('build-js', function() {
-    gulp.src(['dist/js/jquery.js', 'dist/js/home.js', 'dist/js/produto.js'])
-        .pipe(concat('all.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('dist/js'));
-});
-
-gulp.task('build-html', function() {
+gulp.task('usemin', function() {
     gulp.src('dist/**/*.html')
-        .pipe(htmlReplace({
-            js: 'js/all.js'
+        .pipe(usemin({
+            js: [uglify],
+            css: [autoprefixer]
         }))
         .pipe(gulp.dest('dist'));
 });
 
+gulp.task('server', function() {
+   browserSync.init({
+        server: {
+            baseDir: 'app',
+            proxy: 'localhost:3030'
+        }
+   }); 
+   gulp.watch('app/js/*.js').on('change', function(event) {
+       gulp.src(event.path)
+        .pipe(jshint())
+        .pipe(jshint.reporter(jshintStylish));
+   });
+
+   gulp.watch('app/css/*.css').on('change', function(event) {
+       gulp.src(event.path)
+        .pipe(csslint())
+        .pipe(csslint.formatter());
+   });
+
+   gulp.watch('app/**/*').on('change', browserSync.reload);
+
+});
